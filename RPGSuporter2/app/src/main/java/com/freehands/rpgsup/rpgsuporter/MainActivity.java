@@ -1,0 +1,32 @@
+package com.freehands.rpgsup.rpgsuporter;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button btnMonstros = (Button) findViewById(R.id.botao_monstros);
+        btnMonstros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intentAcessaMonstros = new Intent(MainActivity.this, MonstrosActivity.class);
+                startActivity(intentAcessaMonstros);
+            }
+        });
+
+
+    }
+
+
+
+
+}
