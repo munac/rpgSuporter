@@ -1,5 +1,6 @@
 package com.freehands.rpgsup.rpgsuporter.DAO;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,13 +14,13 @@ import java.util.List;
 public class MonstrosDAO extends SQLiteOpenHelper {
 
     public MonstrosDAO(Context context) {
-        super(context, "Monstros", null, 1);
+        super(context, "RpgSuporter", null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE Monstros(id INTEGER PRIMARY KEY," +
-                "nome TEXT NOT NULL, vida REAL;";
+        String sql = "CREATE TABLE Monstros (id INTEGER PRIMARY KEY," +
+                "nome TEXT NOT NULL, vida TEXT);";
         db.execSQL(sql);
     }
 
@@ -37,13 +38,27 @@ public class MonstrosDAO extends SQLiteOpenHelper {
 
         while (c.moveToNext()) {
             Monstro monstro = new Monstro();
+            monstro.setId(c.getLong(c.getColumnIndex("id")));
             monstro.setNome(c.getString(c.getColumnIndex("nome")));
-            monstro.setPontosDeVida(c.getDouble(c.getColumnIndex("vida")));
+            monstro.setPontosDeVida(c.getString(c.getColumnIndex("vida")));
 
             monstros.add(monstro);
         }
         c.close();
 
         return monstros;
+    }
+
+    public void insereMonstro(Monstro mob) {
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        ContentValues cv = new ContentValues();
+
+        cv.put("nome", mob.getNome());
+        cv.put("vida", mob.getPontosDeVida());
+
+        db.insert("Monstros", null, cv);
+
     }
 }

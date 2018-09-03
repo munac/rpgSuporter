@@ -1,9 +1,12 @@
 package com.freehands.rpgsup.rpgsuporter.Modelo;
 
-public class Monstro {
+import java.io.Serializable;
+
+public class Monstro implements Serializable {
 
     private String nome;
-    private double pontosDeVida;
+    private String pontosDeVida;
+    private Long id;
 
     public String getNome() {
         return nome;
@@ -13,11 +16,24 @@ public class Monstro {
         this.nome = nome;
     }
 
-    public double getPontosDeVida() {
+    public String getPontosDeVida() {
         return pontosDeVida;
     }
 
-    public void setPontosDeVida(double pontosDeVida) {
+    public void setPontosDeVida(String pontosDeVida) {
         this.pontosDeVida = pontosDeVida;
+    }
+
+    @Override
+    public String toString() {
+        return getId() + ". " + getNome() + " HP: " + getPontosDeVida();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

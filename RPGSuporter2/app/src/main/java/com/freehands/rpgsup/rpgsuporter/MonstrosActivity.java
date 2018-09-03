@@ -14,6 +14,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.freehands.rpgsup.rpgsuporter.DAO.MonstrosDAO;
+import com.freehands.rpgsup.rpgsuporter.Helpers.MonstrosHelper;
 import com.freehands.rpgsup.rpgsuporter.Modelo.Monstro;
 
 import java.util.List;
@@ -22,6 +23,8 @@ import java.util.List;
 public class MonstrosActivity extends AppCompatActivity {
 
     private ListView listaMonstros;
+    private ArrayAdapter adapter;
+    private MonstrosHelper helper;
 
 
     @Override
@@ -30,9 +33,16 @@ public class MonstrosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_monstros);
 
 
-        listaMonstros = findViewById(R.id.act_monstros_lista);
+        helper = new MonstrosHelper(this);
 
+        Intent intent = getIntent();
+        Monstro mob = (Monstro) intent.getSerializableExtra("monstro");
 
+        if (mob != null){
+            helper.geraMonstro();
+        }
+
+        carregaListaMonstros();
 
         Button addMontro = findViewById(R.id.act_monstros_botao_add);
         addMontro.setOnClickListener(new View.OnClickListener() {
@@ -45,14 +55,21 @@ public class MonstrosActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        carregaListaMonstros();
+    }
+
     public void carregaListaMonstros(){
+
         MonstrosDAO dao = new MonstrosDAO(this);
         List<Monstro> monstros = dao.buscaMonstros();
         dao.close();
 
-
-
-
+        ListView listaMobs = findViewById(R.id.act_monstros_lista);
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, monstros);
+        listaMobs.setAdapter(adapter);
     }
 
 }
